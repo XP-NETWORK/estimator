@@ -1,5 +1,4 @@
-import BigNumber from "bignumber.js";
-import { providers } from "ethers";
+import { BigNumber, PopulatedTransaction, providers } from "ethers";
 import { Request, Router } from "express";
 import { MainNetRpcUri } from "xp.network/dist/consts";
 import { Nft } from "../models/Nft";
@@ -43,9 +42,7 @@ export function estimateRouter(): Router {
         const gasFees = await gasLimitSvc.get(nft, receiver);
 
         return res.status(200).json({
-          fee: gasFees
-            .multipliedBy(new BigNumber(gasPrice.toString()))
-            .toString(10),
+          fee: gasFees.mul(gasPrice).toString(),
         });
       } catch (error) {
         return res.status(500).json({ error: (error as any).toString() });
@@ -69,9 +66,7 @@ export function estimateRouter(): Router {
         const gasFees = await gasLimitSvc.get(nft, receiver);
 
         return res.status(200).json({
-          fee: gasFees
-            .multipliedBy(new BigNumber(gasPrice.toString()))
-            .toString(10),
+          fee: gasFees.mul(gasPrice).toString(),
         });
       } catch (error) {
         return res.status(500).json({ error: (error as any).toString() });
@@ -86,4 +81,16 @@ export interface EstimateReq {
   nft: Nft;
   receiver: string;
   sender: string;
+}
+
+export async function estimateGas(
+  addrs: string[],
+  utx: PopulatedTransaction,
+  w3: providers.Provider
+): Promise<BigNumber> {
+  utx.from = addrs[0];
+  let td = await w3.estimateGas(utx);
+  const fee = td.mul(addrs.length + 1).mul(await w3.getGasPrice());
+
+  return fee;
 }

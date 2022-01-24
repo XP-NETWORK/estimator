@@ -1,9 +1,9 @@
-import { BigNumber } from "bignumber.js";
-import { PopulatedTransaction, providers } from "ethers";
+import { BigNumber, providers } from "ethers";
 import { Minter__factory } from "xpnet-web3-contracts";
 import { Nft } from "../models/Nft";
-import { CacheExpiry } from "./cache";
-import { EVM_VALIDATORS, IEstimateCacheService } from "./transferCache";
+import { estimateGas } from "../routes/estimate";
+import { CacheExpiry, IEstimateCacheService, randomAction } from "./cache";
+import { EVM_VALIDATORS } from "./transferCache";
 
 export function unfreezeGasLimitCacheService(
   cacheExpiry: number = 3.6e6,
@@ -18,7 +18,7 @@ export function unfreezeGasLimitCacheService(
   ): Promise<Map<string, BigNumber>> {
     const fetchCache = async () => {
       const fee = await estimateValidateUnfreezeNft(to, nft, web3Helper);
-      console.log(fee.toString(10));
+
       gasPriceCache = new Map().set(nft.uri, fee);
       _cache_ms = Date.now();
     };
@@ -52,10 +52,6 @@ export function unfreezeGasLimitCacheService(
     getCacheExpiry,
   };
 }
-const randomAction = () =>
-  new BigNumber(
-    Math.floor(Math.random() * 999 + (Number.MAX_SAFE_INTEGER - 1000))
-  );
 
 export async function estimateValidateUnfreezeNft(
   to: string,
@@ -73,16 +69,4 @@ export async function estimateValidateUnfreezeNft(
     nft.wrapperContract!
   );
   return await estimateGas(EVM_VALIDATORS, utx, provider);
-}
-
-export async function estimateGas(
-  addrs: string[],
-  utx: PopulatedTransaction,
-  w3: providers.Provider
-): Promise<BigNumber> {
-  utx.from = addrs[0];
-  let td = await w3.estimateGas(utx);
-  const fee = td.mul(addrs.length + 1).mul(await w3.getGasPrice());
-
-  return new BigNumber(fee.toString());
 }

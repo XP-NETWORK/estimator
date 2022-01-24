@@ -1,6 +1,6 @@
-import { CacheExpiry, IEstimateCacheService } from "./transferCache";
 import { BigNumber } from "ethers";
 import { providers } from "ethers";
+import { CacheExpiry } from "./cache";
 
 export interface IGasPriceCacheService {
   get(): Promise<BigNumber>;

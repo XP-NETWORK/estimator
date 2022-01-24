@@ -1,13 +1,8 @@
-import { BigNumber } from "bignumber.js";
-import { PopulatedTransaction, providers } from "ethers";
+import { BigNumber, PopulatedTransaction, providers } from "ethers";
 import { Minter__factory } from "xpnet-web3-contracts";
 import { Nft } from "../models/Nft";
-import { CacheExpiry } from "./cache";
-import { estimateGas } from "./unfreezeCache";
-
-export interface IEstimateCacheService {
-  get(nft: Nft, to: string): Promise<BigNumber>;
-}
+import { estimateGas } from "../routes/estimate";
+import { CacheExpiry, IEstimateCacheService, randomAction } from "./cache";
 
 export const EVM_VALIDATORS = [
   "0xadFF46B0064a490c1258506d91e4325A277B22aE",
@@ -17,7 +12,8 @@ export const EVM_VALIDATORS = [
 
 export function transferGasLimitCacheService(
   cacheExpiry: number = 3.6e6,
-  web3Helper: providers.Provider
+  web3Helper: providers.Provider,
+  minterAddress: string
 ): IEstimateCacheService & CacheExpiry {
   let _cache_ms = Date.now();
   let gasPriceCache: Map<string, BigNumber> | undefined = undefined;
@@ -27,8 +23,12 @@ export function transferGasLimitCacheService(
     nft: Nft
   ): Promise<Map<string, BigNumber>> {
     const fetchCache = async () => {
-      const fee = await estimateValidateTransferNft(to, nft, web3Helper);
-      console.log(fee.toString(10));
+      const fee = await estimateValidateTransferNft(
+        to,
+        nft,
+        web3Helper,
+        minterAddress
+      );
       gasPriceCache = new Map().set(nft.uri, fee);
       _cache_ms = Date.now();
     };
@@ -62,20 +62,14 @@ export function transferGasLimitCacheService(
     getCacheExpiry,
   };
 }
-const randomAction = () =>
-  new BigNumber(
-    Math.floor(Math.random() * 999 + (Number.MAX_SAFE_INTEGER - 1000))
-  );
 
 export async function estimateValidateTransferNft(
   to: string,
   nft: Nft,
-  provider: providers.Provider
+  provider: providers.Provider,
+  minterAddress: string
 ) {
-  const minter = Minter__factory.connect(
-    "0x5B916EFb0e7bc0d8DdBf2d6A9A7850FdAb1984C4",
-    provider
-  );
+  const minter = Minter__factory.connect(minterAddress, provider);
   const utx = await minter.populateTransaction.validateTransferNft(
     randomAction().toString(),
     to,
