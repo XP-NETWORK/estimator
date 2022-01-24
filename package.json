@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "ethers": "^5.5.3",
     "express": "^4.17.2",
-    "xp.network": "git+https://github.com/xp-network/xpjs#master-dist"
+    "xp.network": "git+https://github.com/xp-network/xpjs#master-dist",
+    "xpnet-web3-contracts": "git+https://github.com/xp-network/XP.network-HECO-Migration#dist"
   }
 }

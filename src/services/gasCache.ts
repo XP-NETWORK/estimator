@@ -1,4 +1,4 @@
-import { CacheExpiry, IEstimateCacheService } from "./cache";
+import { CacheExpiry, IEstimateCacheService } from "./transferCache";
 import { BigNumber } from "ethers";
 import { providers } from "ethers";
 

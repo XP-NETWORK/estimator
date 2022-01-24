@@ -14,9 +14,7 @@ import { estimateRouter } from "./routes/estimate";
     res.status(200).json({ message: "ok" });
   });
 
-  const estimate = estimateRouter(
-    ChainFactory(Config, ChainFactoryConfigs.MainNet())
-  );
+  const estimate = estimateRouter();
 
   app.use("/", estimate);
 
