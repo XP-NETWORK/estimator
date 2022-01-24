@@ -7,7 +7,8 @@ import { EVM_VALIDATORS } from "./transferCache";
 
 export function unfreezeGasLimitCacheService(
   cacheExpiry: number = 3.6e6,
-  web3Helper: providers.Provider
+  web3Helper: providers.Provider,
+  minterAddress: string
 ): IEstimateCacheService & CacheExpiry {
   let _cache_ms = Date.now();
   let gasPriceCache: Map<string, BigNumber> | undefined = undefined;
@@ -17,7 +18,12 @@ export function unfreezeGasLimitCacheService(
     nft: Nft
   ): Promise<Map<string, BigNumber>> {
     const fetchCache = async () => {
-      const fee = await estimateValidateUnfreezeNft(to, nft, web3Helper);
+      const fee = await estimateValidateUnfreezeNft(
+        to,
+        nft,
+        web3Helper,
+        minterAddress
+      );
 
       gasPriceCache = new Map().set(nft.uri, fee);
       _cache_ms = Date.now();
@@ -56,12 +62,10 @@ export function unfreezeGasLimitCacheService(
 export async function estimateValidateUnfreezeNft(
   to: string,
   nft: Nft,
-  provider: providers.Provider
+  provider: providers.Provider,
+  minterAddress: string
 ) {
-  const minter = Minter__factory.connect(
-    "0x5B916EFb0e7bc0d8DdBf2d6A9A7850FdAb1984C4",
-    provider
-  );
+  const minter = Minter__factory.connect(minterAddress, provider);
   const utx = await minter.populateTransaction.validateUnfreezeNft(
     randomAction().toString(),
     to,

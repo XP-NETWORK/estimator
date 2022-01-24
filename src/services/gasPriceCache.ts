@@ -8,7 +8,7 @@ export interface IGasPriceCacheService {
   hit(): boolean;
 }
 
-export function gasPriceCache(
+export function createGasPriceCache(
   w3: providers.Provider,
   cacheExpiry: number = 1e4
 ): IGasPriceCacheService & CacheExpiry {
