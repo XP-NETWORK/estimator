@@ -1,4 +1,4 @@
 export interface Nft {
-  uri: string;
-  wrapperContract?: string;
+    uri: string;
+    wrapperContract?: string;
 }

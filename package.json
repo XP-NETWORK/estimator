@@ -1,21 +1,22 @@
 {
-  "name": "estimator",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "dev": "tsc && node dist/index.js"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.13",
-    "@types/node": "^17.0.10",
-    "typescript": "^4.5.5"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "ethers": "^5.5.3",
-    "express": "^4.17.2",
-    "xp.network": "git+https://github.com/xp-network/xpjs#master-dist",
-    "xpnet-web3-contracts": "git+https://github.com/xp-network/XP.network-HECO-Migration#dist"
-  }
+    "name": "estimator",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "dev": "tsc && node dist/index.js",
+        "format": "prettier . --write"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^17.0.10",
+        "typescript": "^4.5.5"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "ethers": "^5.5.3",
+        "express": "^4.17.2",
+        "xp.network": "git+https://github.com/xp-network/xpjs#master-dist",
+        "xpnet-web3-contracts": "git+https://github.com/xp-network/XP.network-HECO-Migration#dist"
+    }
 }

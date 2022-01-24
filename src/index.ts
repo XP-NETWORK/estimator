@@ -1,24 +1,24 @@
-import express from "express";
-import { ChainFactory, ChainFactoryConfigs } from "xp.network";
-import { Config } from "xp.network/dist/consts";
-import AppConfig from "./Config";
+import express from 'express';
+import { ChainFactory, ChainFactoryConfigs } from 'xp.network';
+import { Config } from 'xp.network/dist/consts';
+import AppConfig from './Config';
 
-import { estimateRouter } from "./routes/estimate";
+import { estimateRouter } from './routes/estimate';
 
 (async () => {
-  const app = express();
+    const app = express();
 
-  app.use(express.json());
+    app.use(express.json());
 
-  app.get("/health", (req, res) => {
-    res.status(200).json({ message: "ok" });
-  });
+    app.get('/health', (req, res) => {
+        res.status(200).json({ message: 'ok' });
+    });
 
-  const estimate = estimateRouter();
+    const estimate = estimateRouter();
 
-  app.use("/", estimate);
+    app.use('/', estimate);
 
-  app.listen(AppConfig.port, () => {
-    console.log(`Listening on port ${AppConfig.port}`);
-  });
+    app.listen(AppConfig.port, () => {
+        console.log(`Listening on port ${AppConfig.port}`);
+    });
 })();
