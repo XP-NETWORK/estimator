@@ -3,7 +3,7 @@ import { Minter__factory } from 'xpnet-web3-contracts';
 import { Nft } from '../models/Nft';
 import { estimateGas } from '../routes/estimate';
 import { CacheExpiry, IEstimateCacheService, randomAction } from './cache';
-import { EVM_VALIDATORS } from './transferCache';
+import { EVM_VALIDATORS } from './cache';
 
 export function unfreezeGasLimitCacheService(
     cacheExpiry: number = 3.6e6,
@@ -32,7 +32,7 @@ export function unfreezeGasLimitCacheService(
             await fetchCache();
         } else if (getCacheExpiry() == 0) {
             const old_cache = new Map(gasPriceCache);
-            await fetchCache().catch((e) => {
+            await fetchCache().catch(e => {
                 console.warn(
                     `failed to fetch exchange rate: ${e}, using old data!`
                 );

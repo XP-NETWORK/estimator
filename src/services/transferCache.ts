@@ -2,13 +2,12 @@ import { BigNumber, PopulatedTransaction, providers } from 'ethers';
 import { Minter__factory } from 'xpnet-web3-contracts';
 import { Nft } from '../models/Nft';
 import { estimateGas } from '../routes/estimate';
-import { CacheExpiry, IEstimateCacheService, randomAction } from './cache';
-
-export const EVM_VALIDATORS = [
-    '0xadFF46B0064a490c1258506d91e4325A277B22aE',
-    '0xa50d8208B15F5e79A1ceABdB4a3ED1866CEB764c',
-    '0xa3F99eF33eDA9E54DbA4c04a6133c0c507bA4352',
-];
+import {
+    CacheExpiry,
+    EVM_VALIDATORS,
+    IEstimateCacheService,
+    randomAction,
+} from './cache';
 
 export function transferGasLimitCacheService(
     cacheExpiry: number = 3.6e6,
@@ -36,7 +35,7 @@ export function transferGasLimitCacheService(
             await fetchCache();
         } else if (getCacheExpiry() == 0) {
             const old_cache = new Map(gasPriceCache);
-            await fetchCache().catch((e) => {
+            await fetchCache().catch(e => {
                 console.warn(
                     `failed to fetch exchange rate: ${e}, using old data!`
                 );
