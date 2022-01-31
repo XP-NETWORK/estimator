@@ -51,7 +51,7 @@ const transferGasPriceCache: GasPriceCache = {
     20: transferGasLimitCacheService(
         3.6e6,
         new providers.JsonRpcProvider(MainNetRpcUri.IOTEX),
-        'x721729b81609D6a4BDE1b662cD683e133d3CF33d'
+        '0x721729b81609D6a4BDE1b662cD683e133d3CF33d'
     ),
 };
 
