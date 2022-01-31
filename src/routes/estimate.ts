@@ -51,7 +51,7 @@ const transferGasPriceCache: GasPriceCache = {
     20: transferGasLimitCacheService(
         3.6e6,
         new providers.JsonRpcProvider(MainNetRpcUri.IOTEX),
-        '0x721729b81609D6a4BDE1b662cD683e133d3CF33d'
+        '0xd9dDB5d6c9D7d764B06E7C5aFF26AD316a4c227F'
     ),
 };
 
@@ -89,7 +89,7 @@ const unfreezeGasPriceCache: GasPriceCache = {
     20: unfreezeGasLimitCacheService(
         3.6e6,
         new providers.JsonRpcProvider(MainNetRpcUri.IOTEX),
-        '0x721729b81609D6a4BDE1b662cD683e133d3CF33d'
+        '0xd9dDB5d6c9D7d764B06E7C5aFF26AD316a4c227F'
     ),
 };
 
