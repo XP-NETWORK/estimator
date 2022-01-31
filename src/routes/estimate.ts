@@ -48,6 +48,11 @@ const transferGasPriceCache: GasPriceCache = {
         new providers.JsonRpcProvider(MainNetRpcUri.CELO),
         '0xF8679A16858cB7d21b3aF6b2AA1d6818876D3741'
     ),
+    20: transferGasLimitCacheService(
+        3.6e6,
+        new providers.JsonRpcProvider(MainNetRpcUri.IOTEX),
+        'x721729b81609D6a4BDE1b662cD683e133d3CF33d'
+    ),
 };
 
 const unfreezeGasPriceCache: GasPriceCache = {
@@ -81,6 +86,11 @@ const unfreezeGasPriceCache: GasPriceCache = {
         new providers.JsonRpcProvider(MainNetRpcUri.CELO),
         '0xF8679A16858cB7d21b3aF6b2AA1d6818876D3741'
     ),
+    20: unfreezeGasLimitCacheService(
+        3.6e6,
+        new providers.JsonRpcProvider(MainNetRpcUri.IOTEX),
+        '0x721729b81609D6a4BDE1b662cD683e133d3CF33d'
+    ),
 };
 
 export interface GasLimitCache {
@@ -100,6 +110,7 @@ const gasLimitCache: GasLimitCache = {
     ),
     8: createGasPriceCache(new providers.JsonRpcProvider(MainNetRpcUri.FANTOM)),
     11: createGasPriceCache(new providers.JsonRpcProvider(MainNetRpcUri.CELO)),
+    20: createGasPriceCache(new providers.JsonRpcProvider(MainNetRpcUri.IOTEX)),
 };
 
 export function estimateRouter(): Router {
